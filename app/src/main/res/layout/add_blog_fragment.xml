@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="state"
+            type="com.example.simple_blog.ui.addNEditBlog.AddNEditFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.example.simple_blog.ui.addNEditBlog.AddNEditViewModel" />
+    </data>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@color/background_root"
+        tools:context=".ui.addNEditBlog.AddNEditFragment">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/background_body"
+                android:elevation="0dp"
+                android:id="@+id/card"
+                bind:cardCornerRadius="10dp"
+                bind:cardElevation="0dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="10dp"
+                        bind:circular_image_url="@{viewModel.mBlog.author.avatar}" />
+
+                    <LinearLayout
+                        android:id="@+id/we"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/avatar"
+                        android:gravity="start"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.mBlog.author.name}"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="@{viewModel.mBlog.author.profession}"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/p"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/view"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Blog Categories : "
+                            android:textSize="16sp" />
+
+                        <CheckBox
+                            android:id="@+id/cb_business"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-5dp"
+                            android:layout_marginBottom="-5dp"
+                            android:checked="@{viewModel.mBlog.categories.contains(state.BUSINESS)}"
+                            android:text="Business" />
+
+
+                        <CheckBox
+                            android:id="@+id/cb_lifestyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-5dp"
+                            android:layout_marginBottom="-5dp"
+                            android:checked="@{viewModel.mBlog.categories.contains(state.LIFESTYLE)}"
+                            android:text="Lifestyle" />
+
+                        <CheckBox
+                            android:id="@+id/cb_entertainment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-5dp"
+                            android:layout_marginBottom="-5dp"
+                            android:checked="@{viewModel.mBlog.categories.contains(state.ENTERTAINMENT)}"
+                            android:text="Entertainment" />
+
+                        <CheckBox
+                            android:id="@+id/cb_productivity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="-5dp"
+                            android:layout_marginBottom="-5dp"
+                            android:checked="@{viewModel.mBlog.categories.contains(state.PRODUCTIVITY)}"
+                            android:text="Productivity" />
+
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/title_layout"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:hintEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:background="@drawable/number_box_shape"
+                                android:hint="Blog Title"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:singleLine="true"
+                                android:text="@={viewModel.mBlog.title}"
+                                android:textColor="@color/black"
+                                android:textSize="18dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/desc_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:visibility="visible"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:hintEnabled="true">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/desc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/number_box_shape"
+                                android:gravity="start"
+                                android:hint="Blog Description"
+                                android:inputType="textMultiLine"
+                                android:lines="10"
+                                android:text="@={viewModel.mBlog.description}"
+                                android:textColor="@color/black"
+                                android:textSize="18dp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/we"
+                        android:layout_marginTop="20dp"
+                        android:background="#ddd" />
+
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/bt_post"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="20dp"
+                android:clickable="true"
+                android:onClick="@{()-> viewModel.onSubmitClicked()}"
+                android:layout_below="@+id/card"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/purple_700"
+                app:cardCornerRadius="10dp">
+
+                <TextView
+                    android:id="@+id/bt_post_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="POST"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+            <ProgressBar
+                android:id="@+id/pb"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </ScrollView>
+
+
+</layout>
