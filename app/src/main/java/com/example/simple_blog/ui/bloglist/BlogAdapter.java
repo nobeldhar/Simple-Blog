@@ -30,22 +30,13 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.MyHolder> {
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemBlogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_blog, parent, false);
 
-        return new MyHolder(binding);
+        return new MyHolder(binding, listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         Blog blog = blogList.get(position);
-
         holder.bind(blog);
-        holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onBlogClicked(blog);
-            }
-        });
-
-
     }
 
     @Override
@@ -61,14 +52,17 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.MyHolder> {
     public class MyHolder extends RecyclerView.ViewHolder {
 
         private ItemBlogBinding binding;
+        private BlogAdapterListener listener;
 
-        public MyHolder(@NonNull ItemBlogBinding binding) {
+        public MyHolder(@NonNull ItemBlogBinding binding, BlogAdapterListener listener) {
             super(binding.getRoot());
             this.binding = binding;
+            this.listener = listener;
         }
 
         void bind (Object object){
             binding.setVariable(BR.model, object);
+            binding.setVariable(BR.listener, this.listener);
             binding.executePendingBindings();
         }
     }

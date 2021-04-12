@@ -9,12 +9,17 @@
         <variable
             name="model"
             type="com.example.simple_blog.data.local.entities.Blog" />
+
+        <variable
+            name="listener"
+            type="com.example.simple_blog.ui.bloglist.BlogAdapterListener" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:onClick="@{()-> listener.onBlogClicked(model)}"
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/background_body"
         android:focusable="true"
