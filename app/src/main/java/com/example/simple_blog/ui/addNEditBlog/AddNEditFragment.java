@@ -97,27 +97,37 @@ public class AddNEditFragment extends Fragment implements CompoundButton.OnCheck
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //decide if it is for edit or add
+        mViewModel.decideAction(mBlogId);
+
+
+        mViewModel.getAddEditEvent().observe(getViewLifecycleOwner(), new Observer<AddEditEvent>() {
+            @Override
+            public void onChanged(AddEditEvent event) {
+                switch (event){
+                    case EDIT_BLOG_ACTION:
+                        initEditBlog();
+                        break;
+
+                    case ADD_BLOG_ACTION:
+                        initAddBLog();
+                }
+            }
+        });
 
         mViewModel.getSubmitResult().observe(getViewLifecycleOwner(), message -> {
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
-
             if (message.contains("Successful"))
                 requireActivity().onBackPressed();
         });
 
-
-        if (mBlogId != null)
-            initEditBlog();
-        else
-            initAddBLog();
-
     }
 
 
+    // Init UI for Edit Action
     private void initEditBlog() {
         Objects.requireNonNull(requireActivity()).setTitle("Edit Blog");
         binding.btPostText.setText("UPDATE");
-        mViewModel.setUpdate(true);
         mViewModel.getBlogById(mBlogId).observe(getViewLifecycleOwner(), new Observer<Blog>() {
             @Override
             public void onChanged(Blog blog) {
@@ -126,15 +136,13 @@ public class AddNEditFragment extends Fragment implements CompoundButton.OnCheck
                 binding.setViewModel(mViewModel);
             }
         });
-
     }
 
 
+    // Init UI for Add Action
     private void initAddBLog() {
         Objects.requireNonNull(requireActivity()).setTitle("Add Blog");
         binding.btPostText.setText("POST");
-        mViewModel.setUpdate(false);
-
         Author author = new Author("https://i.pravatar.cc/250", 1, "John Doe", "Content Writer");
         Blog blog = new Blog(author, new ArrayList<String>(),
                 "https://i.picsum.photos/id/608/200/300.jpg?hmac=b-eDmVyhr3rI_4k3z2J_PNwOxEwSKa5EDC9uFH4jERU",
@@ -148,43 +156,6 @@ public class AddNEditFragment extends Fragment implements CompoundButton.OnCheck
     //Blog Category Selection Change
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        if (isChecked){
-
-            switch (buttonView.getId()){
-                case R.id.cb_business:
-                    if (!mViewModel.getMBlog().getCategories().contains(BUSINESS))
-                        mViewModel.getMBlog().getCategories().add(BUSINESS);
-                    break;
-                case R.id.cb_entertainment:
-                    if (!mViewModel.getMBlog().getCategories().contains(ENTERTAINMENT))
-                        mViewModel.getMBlog().getCategories().add(ENTERTAINMENT);
-                    break;
-                case R.id.cb_lifestyle:
-                    if (!mViewModel.getMBlog().getCategories().contains(LIFESTYLE))
-                        mViewModel.getMBlog().getCategories().add(LIFESTYLE);
-                    break;
-                case R.id.cb_productivity:
-                    if (!mViewModel.getMBlog().getCategories().contains(PRODUCTIVITY))
-                        mViewModel.getMBlog().getCategories().add(PRODUCTIVITY);
-                    break;
-            }
-        }else {
-            switch (buttonView.getId()){
-                case R.id.cb_business:
-                    mViewModel.getMBlog().getCategories().remove(BUSINESS);
-                    break;
-                case R.id.cb_entertainment:
-                    mViewModel.getMBlog().getCategories().remove(ENTERTAINMENT);
-                    break;
-                case R.id.cb_lifestyle:
-                    mViewModel.getMBlog().getCategories().remove(LIFESTYLE);
-                    break;
-                case R.id.cb_productivity:
-                    mViewModel.getMBlog().getCategories().remove(PRODUCTIVITY);
-                    break;
-            }
-        }
-
+        mViewModel.onCheckBoxChanged(buttonView.getId(), isChecked);
     }
 }

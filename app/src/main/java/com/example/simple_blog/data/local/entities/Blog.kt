@@ -12,7 +12,7 @@ data class Blog(
         @SerializedName("author")
         var author: Author?,
         @SerializedName("categories")
-        var categories: List<String>?,
+        var categories: ArrayList<String>? ,
         @SerializedName("cover_photo")
         var coverPhoto: String?,
         @SerializedName("description")

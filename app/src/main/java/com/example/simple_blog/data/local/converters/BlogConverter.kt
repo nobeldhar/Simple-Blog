@@ -20,13 +20,13 @@ class BlogConverter {
     }
 
     @TypeConverter
-    fun fromStringToCategories(value: String): List<String>? {
-        val listType = object : TypeToken<List<String>>() {}.type
+    fun fromStringToCategories(value: String): ArrayList<String>? {
+        val listType = object : TypeToken<ArrayList<String>>() {}.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun fromCategoriesToString(categories: List<String>): String {
+    fun fromCategoriesToString(categories: ArrayList<String>): String {
         val gson = Gson()
         return gson.toJson(categories)
     }
